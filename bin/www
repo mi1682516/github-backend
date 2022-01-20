@@ -4,9 +4,12 @@
  * Module dependencies.
  */
 
+var http = require('http')
 var app = require('../app');
-var debug = require('debug')('github-backend:server');
-var http = require('http');
+var debug = require('debug')
+var passport = require('passport')
+var Debug = debug('github-backend:server');
+var {Strategy} = require('passport-local');
 
 /**
  * Get port from environment and store in Express.
@@ -20,6 +23,9 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+
+passport.use(new Strategy(strategy));
+
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -86,5 +92,9 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+  Debug('Listening on ' + bind);
+}
+
+function strategy(username,password,done){
+  done(null,{username,password})
 }
