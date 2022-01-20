@@ -7,8 +7,14 @@ var router = express.Router();
 
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.send(session)
+router.get('/',async(req,res) => {
+  var create = session.create(
+    session.driver
+  )
+  var all  = await create.run(
+    "match(n) return n"
+  )
+  res.send(all)
 });
 
 module.exports = router;
