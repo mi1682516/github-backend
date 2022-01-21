@@ -23,7 +23,22 @@ router.post('/submit',async(req,res) => {
     =$password return user,p`,
     Object( { ...req.body } )
   )
-  res.send(test.records)
+  if(test.records.length > 0){
+   test.records.map(___r => {
+     var [u] = ___r._fields
+     .filter(({labels}) =>
+       labels == "user"
+     )
+     var [p] = ___r._fields
+     .filter(({labels}) =>
+       labels== "profile"
+     )
+     res.send({
+       user : u.properties,
+       profile : p.properties
+     })
+   })
+  }
 })
 
 module.exports = router
